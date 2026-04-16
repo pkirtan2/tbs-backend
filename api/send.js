@@ -1,6 +1,18 @@
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
+
+  // ✅ ADD THESE LINES (VERY IMPORTANT)
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // ✅ HANDLE PREFLIGHT REQUEST
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  // ❗ KEEP THIS AFTER OPTIONS
   if (req.method !== "POST") {
     return res.status(405).json({ msg: "Method not allowed" });
   }
@@ -13,17 +25,19 @@ export default async function handler(req, res) {
     }
 
     const transporter = nodemailer.createTransport({
-  host: "smtp.hostinger.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,   // 🔥 IMPORTANT FIX
-  },
-});
+      host: "smtp.hostinger.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    // your email sending code...
     await transporter.sendMail({
       from: `"Website Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
