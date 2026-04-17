@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, message } = req.body;
+    const { name, email, phone, message, source } = req.body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ msg: "All fields required ❌" });
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     <p><strong>Name:</strong> ${name}</p>
     <p><strong>Email:</strong> ${email}</p>
     <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-
+<p><strong>How did you hear about us:</strong> ${source}</p>
     <p style="margin-top:20px;"><strong>Message:</strong></p>
 
     <div style="
@@ -103,7 +103,7 @@ export default async function handler(req, res) {
   <p><strong>Name:</strong> ${name}</p>
   <p><strong>Email:</strong> ${email}</p>
   <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-
+<p><strong>How did you hear about us:</strong> ${source}</p>
   <hr style="border:0.5px solid #374151; margin:20px 0;" />
 
   <p style="color:#9ca3af; font-size:12px;">
